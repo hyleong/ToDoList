@@ -22,7 +22,6 @@
     ToDoItem *item1 = [[ToDoItem alloc] init];
     item1.itemName = @"Buy milk";
     [self.toDoItems addObject:item1];
-    [self.toDoItems addObject:item1];
     ToDoItem *item2 = [[ToDoItem alloc] init];
     item2.itemName = @"Buy eggs";
     [self.toDoItems addObject:item2];
@@ -65,6 +64,11 @@
     
     ToDoItem *toDoItem = [self.toDoItems objectAtIndex:indexPath.row];
     cell.textLabel.text = toDoItem.itemName;
+    if (toDoItem.completed) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    } else {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
     return cell;
 }
 
@@ -112,5 +116,12 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    ToDoItem *tappedItem = [self.toDoItems objectAtIndex:indexPath.row];
+    tappedItem.completed = !tappedItem.completed;
+    [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+}
 
 @end
